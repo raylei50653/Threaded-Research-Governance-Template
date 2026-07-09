@@ -1,12 +1,79 @@
-# Research Repo Governance Template
+# Threaded Research Governance Template
 
-**Threaded Research Governance** — a lightweight docs-as-code template for research-heavy engineering repos.
+**v1 · phase 1 complete** — a copyable docs-as-code governance template for research-heavy engineering repos.  
+GitHub **template repository** · public · default branch `main`.
 
 > **One home per fact · thin entrypoints · threaded task cards · explicit evidence promotion**
 >
 > 面向研究型工程專案的輕量文檔治理模板：單一事實來源、薄入口、連續任務母線、證據升格路徑。
 
+```text
+Threaded-Research-Governance-Template v1
+= 可複製文檔治理模板
+= 已有實際內容（非空殼）
+= GitHub template repo
+= phase 1 complete
+```
+
 Use this when your repo mixes **production code**, **multi-step experiments**, and **citable numbers** — and chat history is not a durable memory.
+
+**Phase 2** (`check_doc_structure.py` and friends) is intentionally **not** here yet. v1 optimizes for:
+
+> Can a user understand how to adopt this in **about five minutes**?
+
+---
+
+## Start here (5-minute adoption)
+
+1. Click **[Use this template](https://github.com/raylei50653/Threaded-Research-Governance-Template/generate)** (or clone) into your project / overlay onto an existing repo.
+2. **Rename placeholders** — see [What to edit first](#what-to-edit-first).
+3. **Define modules** under `docs/modules/` (copy `_template/`; rename or delete `module-a/b/c`).
+4. Keep **module `TODO.md` as WIP-lock only** — one sole active one-liner + links; no task novels.
+5. **Create a thread only if** work crosses **≥2 doc homes** or **≥3 steps** (or will produce citable policy / audit).
+6. **Promote citable numbers only** through `evidence_ledger` / `report_data` / `no_go_registry` — research notes alone are not citable outside themselves.
+
+Then open [DEVELOPMENT.md](DEVELOPMENT.md) and pick a **D0–D4** level for the next change.
+
+### What to edit first
+
+| Order | File / path | What you change |
+|:--|:--|:--|
+| 1 | global search | `ProjectName` → your name |
+| 2 | global search | `<baseline-preset>` → your default eval / run preset |
+| 3 | `docs/modules/` | rename `module-a/b/c` or delete; copy `_template/` for real modules |
+| 4 | `docs/TODO.md` | fill **one** baseline row (this is the `current-baseline` fact-owner) |
+| 5 | `DEVELOPMENT.md` §4–5 | dashboard module table + hot-path file map + your smoke commands |
+| 6 | (optional) | rename `report_data/` → `publication_assets/` if you prefer; update links |
+
+| Placeholder | Meaning | Example |
+|:--|:--|:--|
+| `ProjectName` | Your project | `MyTracker` |
+| `<baseline-preset>` | Default eval / run preset | `mainline_v1` |
+| `module-a` / `module-b` / `module-c` | Real subsystem names | `detection`, `policy`, `runtime` |
+| `report_data/` | Publication / paper asset home | keep or rename |
+| `docs/research/decision-log/` | Closed policy / decision line home | create only when needed |
+
+### Adoption checklist
+
+```text
+□ Placeholders renamed (ProjectName, baseline preset)
+□ Real modules exist under docs/modules/ (not only examples)
+□ Each module has README.md + TODO.md (WIP-lock shape)
+□ Baseline has one fact-owner home (docs/TODO.md)
+□ First research note indexed from owning README (same PR)
+□ Threads only for multi-home / multi-step work
+□ No number cited in PR/README/paper without ledger / no_go / report_data
+```
+
+Longer contract (after the 5-minute path): [docs/ownership/doc_structure_contract.md](docs/ownership/doc_structure_contract.md).
+
+---
+
+## Three selling points
+
+1. **Thin entrypoint** — start from a task level (D0–D4), not from the whole repo.
+2. **Thread cards** — preserve multi-step research context without creating second truths.
+3. **Evidence promotion** — research numbers are not citable until promoted to ledger / report assets.
 
 ---
 
@@ -22,40 +89,10 @@ This template keeps a **small fixed topology** so agents and humans can re-enter
 
 ---
 
-## Three selling points
-
-1. **Thin entrypoint** — start from a task level (D0–D4), not from the whole repo.
-2. **Thread cards** — preserve multi-step research context without creating second truths.
-3. **Evidence promotion** — research numbers are not citable until promoted to ledger / report assets.
-
----
-
-## Quick start
-
-### As a GitHub template
-
-1. Click **Use this template** (or clone) into your project.
-2. Search-replace placeholders (see below).
-3. Rename `docs/modules/module-{a,b,c}` to real modules (or delete extras).
-4. Fill **one** baseline row in `docs/TODO.md` and link it from `DEVELOPMENT.md`.
-5. Keep writing: module research notes → index rows → promote only when cited.
-
-### Placeholders to replace
-
-| Placeholder | Meaning | Example |
-|:--|:--|:--|
-| `ProjectName` | Your project | `MyTracker` |
-| `<baseline-preset>` | Default eval / run preset | `mainline_v1` |
-| `module-a` / `module-b` / `module-c` | Real subsystem names | `detection`, `policy`, `runtime` |
-| `report_data/` | Publication / paper asset home (optional rename to `publication_assets/`) | keep or rename |
-| `docs/research/decision-log/` | Closed policy / decision line home | optional; create when needed |
-
----
-
 ## Layout (v1)
 
 ```text
-research-governance-template/
+Threaded-Research-Governance-Template/
 ├── DEVELOPMENT.md                 # D0–D4 levels · read/write/verify packs · dashboard
 ├── docs/
 │   ├── README.md                  # writing decision tree
@@ -85,10 +122,8 @@ research-governance-template/
 ├── report_data/
 │   ├── README.md
 │   └── source_map.md
-└── scripts/tools/                 # phase-2 checkers (stub)
+└── scripts/tools/                 # phase-2 checkers (planned only)
 ```
-
-**v1 goal:** establish the **doc graph by convention**. Automated structure checks (`check_doc_structure.py`) are intentionally deferred to phase 2.
 
 ---
 
@@ -113,16 +148,20 @@ pick D-level → open doc pack → change code / write note → verify for that 
 1. Copy `docs/modules/_template/` → `docs/modules/<your-module>/`.
 2. Write one D1 research note with `doc-status` / `doc-promotion` markers.
 3. Index it from the module README (same PR).
-4. If multi-step: open a thread from `thread_template.md`.
-5. If a number will be cited in a PR/README/paper: add a ledger or no-go row.
+4. If multi-step: open a thread from [`thread_template.md`](docs/research/threads/thread_template.md).
+5. If a number will be cited in a PR/README/paper: add a ledger or no_go row.
 
 ---
 
-## Phase 2 (not in this release)
+## Phase 2 (later)
+
+Only after the adoption path is stable:
 
 - `scripts/tools/check_doc_structure.py` (warn-only: research note missing from owning README)
 - link / stale-path / freshness checkers
 - optional `--strict` after index debt is paid
+
+Until then, use the human checklist in [docs/DOC_MAINTENANCE.md](docs/DOC_MAINTENANCE.md).
 
 ---
 
