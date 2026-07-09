@@ -1,0 +1,137 @@
+# Research Repo Governance Template
+
+**Threaded Research Governance** — a lightweight docs-as-code template for research-heavy engineering repos.
+
+> **One home per fact · thin entrypoints · threaded task cards · explicit evidence promotion**
+>
+> 面向研究型工程專案的輕量文檔治理模板：單一事實來源、薄入口、連續任務母線、證據升格路徑。
+
+Use this when your repo mixes **production code**, **multi-step experiments**, and **citable numbers** — and chat history is not a durable memory.
+
+---
+
+## Why this exists
+
+Research engineering repos tend to lose memory in three ways:
+
+1. **Entrypoint bloat** — `DEVELOPMENT.md` / README becomes an encyclopedia.
+2. **Second truths** — the same metric appears in TODO, PR body, paper notes, and chat, then drifts.
+3. **Context amnesia** — multi-step work has no mother line; every session re-derives “what was next.”
+
+This template keeps a **small fixed topology** so agents and humans can re-enter without rereading the whole tree.
+
+---
+
+## Three selling points
+
+1. **Thin entrypoint** — start from a task level (D0–D4), not from the whole repo.
+2. **Thread cards** — preserve multi-step research context without creating second truths.
+3. **Evidence promotion** — research numbers are not citable until promoted to ledger / report assets.
+
+---
+
+## Quick start
+
+### As a GitHub template
+
+1. Click **Use this template** (or clone) into your project.
+2. Search-replace placeholders (see below).
+3. Rename `docs/modules/module-{a,b,c}` to real modules (or delete extras).
+4. Fill **one** baseline row in `docs/TODO.md` and link it from `DEVELOPMENT.md`.
+5. Keep writing: module research notes → index rows → promote only when cited.
+
+### Placeholders to replace
+
+| Placeholder | Meaning | Example |
+|:--|:--|:--|
+| `ProjectName` | Your project | `MyTracker` |
+| `<baseline-preset>` | Default eval / run preset | `mainline_v1` |
+| `module-a` / `module-b` / `module-c` | Real subsystem names | `detection`, `policy`, `runtime` |
+| `report_data/` | Publication / paper asset home (optional rename to `publication_assets/`) | keep or rename |
+| `docs/research/decision-log/` | Closed policy / decision line home | optional; create when needed |
+
+---
+
+## Layout (v1)
+
+```text
+research-governance-template/
+├── DEVELOPMENT.md                 # D0–D4 levels · read/write/verify packs · dashboard
+├── docs/
+│   ├── README.md                  # writing decision tree
+│   ├── DOC_MAINTENANCE.md         # format · WIP=1 · fact-owner
+│   ├── TODO.md                    # global WIP + baseline fact-owner
+│   ├── ownership/
+│   │   ├── README.md
+│   │   ├── doc_structure_contract.md   # homes · threads · promotion (O1.5)
+│   │   └── change_routing_matrix.md    # objective → checks
+│   ├── research/
+│   │   ├── README.md
+│   │   ├── evidence_ledger.md
+│   │   ├── threads/
+│   │   │   ├── README.md
+│   │   │   └── thread_template.md
+│   │   └── eval/
+│   │       └── signal_analysis_ledger.md
+│   ├── modules/
+│   │   └── _template/             # copy this for each module
+│   │       ├── README.md
+│   │       ├── TODO.md
+│   │       └── research/
+│   │           └── note_template.md
+│   ├── reference/
+│   │   └── no_go_registry.md
+│   └── archive/
+├── report_data/
+│   ├── README.md
+│   └── source_map.md
+└── scripts/tools/                 # phase-2 checkers (stub)
+```
+
+**v1 goal:** establish the **doc graph by convention**. Automated structure checks (`check_doc_structure.py`) are intentionally deferred to phase 2.
+
+---
+
+## Core loop
+
+```text
+pick D-level → open doc pack → change code / write note → verify for that level
+```
+
+| Artifact | Role | Must not |
+|:--|:--|:--|
+| `DEVELOPMENT.md` | Thin entry: level → pack → dashboard mirrors | Become an encyclopedia |
+| module `TODO.md` | **WIP lock** (one sole active + links) | Task narrative / metrics dumps |
+| `docs/research/threads/` | Continuous-task **navigation** cards | Evidence tables / second truth |
+| module or global `research/*.md` | Facts, methods, commands, tables | Act as WIP lock |
+| `evidence_ledger` / `no_go` / `report_data` | Promoted formal facts | Chat-only numbers |
+
+---
+
+## Minimal “good first week”
+
+1. Copy `docs/modules/_template/` → `docs/modules/<your-module>/`.
+2. Write one D1 research note with `doc-status` / `doc-promotion` markers.
+3. Index it from the module README (same PR).
+4. If multi-step: open a thread from `thread_template.md`.
+5. If a number will be cited in a PR/README/paper: add a ledger or no-go row.
+
+---
+
+## Phase 2 (not in this release)
+
+- `scripts/tools/check_doc_structure.py` (warn-only: research note missing from owning README)
+- link / stale-path / freshness checkers
+- optional `--strict` after index debt is paid
+
+---
+
+## Design origin
+
+Patterns distilled from a production research-heavy tracking codebase’s docs governance (task levels, WIP=1, thread cards, evidence promotion). This template is **project-agnostic** — no domain metrics or product names baked in.
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).

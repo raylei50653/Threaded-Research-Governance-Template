@@ -1,0 +1,29 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Local experiment dumps (prefer out/ or runs/ outside docs)
+out/
+runs/
+scratch/
+
+# Build / coverage
+build/
+dist/
+*.egg-info/
+.coverage
+htmlcov/
