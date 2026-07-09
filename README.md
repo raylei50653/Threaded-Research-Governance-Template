@@ -27,12 +27,23 @@ Use this when your repo mixes **production code**, **multi-step experiments**, a
 
 1. Click **[Use this template](https://github.com/raylei50653/Threaded-Research-Governance-Template/generate)** (or clone) into your project / overlay onto an existing repo.
 2. **Rename placeholders** — see [What to edit first](#what-to-edit-first).
-3. **Define modules** under `docs/modules/` (copy `_template/`; rename or delete `module-a/b/c`).
+3. **Define modules** under `docs/modules/` (rename or delete `module-a/b/c`; copy `_template/` for extras).
 4. Keep **module `TODO.md` as WIP-lock only** — one sole active one-liner + links; no task novels.
 5. **Create a thread only if** work crosses **≥2 doc homes** or **≥3 steps** (or will produce citable policy / audit).
 6. **Promote citable numbers only** through `evidence_ledger` / `report_data` / `no_go_registry` — research notes alone are not citable outside themselves.
 
 Then open [DEVELOPMENT.md](DEVELOPMENT.md) and pick a **D0–D4** level for the next change.
+
+**Copying a module package:**
+
+```bash
+cp -a docs/modules/_template docs/modules/<your-module>
+# edit README.md + TODO.md titles
+# remove research/note_template.md OR replace it with a real note and index that note
+# update DEVELOPMENT.md dashboard row + docs/modules/README.md
+```
+
+> Global search will still hit `module-a` inside *this* README and other instructional examples — that is expected. Real package paths under `docs/modules/` should not keep those names.
 
 ### What to edit first
 
@@ -40,7 +51,7 @@ Then open [DEVELOPMENT.md](DEVELOPMENT.md) and pick a **D0–D4** level for the 
 |:--|:--|:--|
 | 1 | global search | `ProjectName` → your name |
 | 2 | global search | `<baseline-preset>` → your default eval / run preset |
-| 3 | `docs/modules/` | rename `module-a/b/c` or delete; copy `_template/` for real modules |
+| 3 | `docs/modules/` | rename `module-a/b/c` or delete; copy `_template/` for more modules |
 | 4 | `docs/TODO.md` | fill **one** baseline row (this is the `current-baseline` fact-owner) |
 | 5 | `DEVELOPMENT.md` §4–5 | dashboard module table + hot-path file map + your smoke commands |
 | 6 | (optional) | rename `report_data/` → `publication_assets/` if you prefer; update links |
