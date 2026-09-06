@@ -49,7 +49,7 @@ marked so that no reader mistakes a narrative for a finding.
 | **v0** | — | TODO as task memory | Bloat; the same number lived in TODO, PR body and chat, then drifted | **R** |
 | **v1** | 2026-07-10 | WIP lock + thread cards + evidence promotion | No separation between what was *planned* and what was *accepted* | **V** |
 | **v2** | 2026-07-13 | Accepted state / charter / probe split | Evidence had no artifact identity to point back at | **V** |
-| **v3** | 2026-09-01 | Asset provenance layer | Governance gates coupled to ordinary development | **V** (landed, [#330](https://github.com/raylei50653/saccade/pull/330)) |
+| **v3** | 2026-09-01 | Asset provenance layer | Governance gates coupled to ordinary development | **V** (landed, [`3973d0db`](https://github.com/raylei50653/saccade/commit/3973d0db8c3afa2948e7a2deead74ee984341494)) |
 | **v4** | 2026-09-05 | Separate validity / applicability / completeness | — still open — | **O** |
 
 ---
@@ -149,9 +149,14 @@ recorded ones earned to all of them.
 
 **Landed:** the ADR document still carries `doc-status: proposed` — it is a planning
 document and was never flipped — but the implementation merged the same day:
-[#330](https://github.com/raylei50653/saccade/pull/330) (AP-1 + AP-2, *claim artifact
-directories before writing results*), followed by the inventory projection and a schema bump
-that added `provenance_mode`. The manifest writer is fail-closed: no manifest, no results.
+[`3973d0db`](https://github.com/raylei50653/saccade/commit/3973d0db8c3afa2948e7a2deead74ee984341494)
+(merge of [#330](https://github.com/raylei50653/saccade/pull/330), AP-1 + AP-2, *claim
+artifact directories before writing results*), followed by the inventory projection and a
+schema bump that added `provenance_mode`. The manifest writer is fail-closed: no manifest,
+no results.
+
+> The witness is the **merge commit**, not the PR. A pull request is a stable identifier
+> whose body can be edited afterwards; the commit cannot. Same rule as the blob pins above.
 
 > **What is still not claimed.** That the ~87 GB was reduced, or that any orphan was
 > disposed of. Identity is the precondition for disposal

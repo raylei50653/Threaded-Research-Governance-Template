@@ -16,5 +16,6 @@ Each file ends with **"what this does not require"**, because the most common wa
 misapply this model is to implement the reference realization's *policy* and believe the
 invariant has been satisfied.
 
-**01–04 are stated at the strictness the reference codebase runs. 05 is stated stricter** —
-a distilled correction rather than a transcription, and its page says so up front.
+**Two go beyond the observed practice, and say so on their own pages:** 01 generalizes
+*per module owner* to *per declared decision scope*; 05 states a ranking stricter than the
+lab's current tier-2 surfaces. 02, 03 and 04 are transcriptions.

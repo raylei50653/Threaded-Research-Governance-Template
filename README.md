@@ -41,9 +41,10 @@ skipped and none traversed backwards**, and the five primitives are what keep th
 | **04** | [Transition admissibility](docs/primitives/04-transition-admissibility.md) | Rules give a candidate set; selection is separate | *mechanical execution mistaken for judgment* |
 | **05** | [Projection](docs/primitives/05-projection.md) | A projection never becomes an authority | *authoritative-looking stale status pages* |
 
-Four of the five are stated at the strictness the reference codebase actually runs.
-[Projection](docs/primitives/05-projection.md) is stated **stricter** — a distilled
-correction, labelled as one on its own page.
+Two carry a step beyond what the reference codebase runs, labelled as such on their own
+pages: **01** generalizes the observed *per module owner* rule to *per declared decision
+scope*, and **05** states a stricter ranking than the lab's current practice. The other
+three are transcriptions.
 
 Two results that generalize furthest:
 

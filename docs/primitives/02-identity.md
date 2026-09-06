@@ -102,7 +102,14 @@ The broken link was stated precisely: the evidence ledger cites *documents*, doc
 *numbers*, and the segment from "which directory and which commit produced this number" was
 missing entirely.
 
-> ADR 021 is `proposed`. The measurements are **V**. That the fix landed is not claimed.
+> **Status.** The measurements are **V**. The manifest writer *landed* the same day —
+> [#330](https://github.com/raylei50653/saccade/commit/3973d0db8c3afa2948e7a2deead74ee984341494),
+> merged 2026-09-01, output claiming fail-closed — with the inventory projection and the
+> two-mode schema following. The ADR document itself still carries `doc-status: proposed`;
+> it was written as a planning document and was never flipped.
+>
+> What is **not** claimed: that anything was disposed of, or that the ~87 GB shrank. This
+> primitive is the precondition for disposal, not disposal.
 
 ## Three identities, not one
 

@@ -92,13 +92,30 @@ intention from a finding unless the document structure makes them different obje
 
 > *不能被命名的東西，不能被引用，也不能被安全刪除。*
 
-**Invariant.** Anything that may later be cited must carry an identity written **before
-the first result byte**: the commit, the dirty state, the preset, the dataset, the host,
-the command line, the producer, and the claims it is intended to support.
+**Invariant.** Anything that may later be cited carries an identity, and the identity
+splits by obligation:
 
-**Provenance reconstructed after the fact is not production provenance.** Deriving a
-manifest for an artifact that already exists produces a plausible story, not a binding —
-and the difference is invisible downstream, which is exactly why it must be structural.
+| | fields | when |
+|:--|:--|:--|
+| **producer identity** | commit, dirty state, preset, dataset, host, cmdline, producer, started_at | **required before the first result byte** |
+| **claim linkage** | which decision objects this supports — ids only | optional at creation, **required before citation** |
+
+Claim linkage cannot be required up front without forcing a researcher to name the
+conclusion before the run. The obligation belongs at the other end of the chain, where
+[promotion](#3-evidence-promotion) already demands an explicit act.
+
+**Reconstruction is labelled, not banned.** An artifact predating the discipline still needs
+a name, so the *mode* goes in the file and the required set differs by mode:
+
+```text
+production      full producer identity, written by the run before its first result byte
+reconstructed   commit + a named source for every field carried;
+                fields with no named source are absent, never inferred
+```
+
+The asymmetry is the entire safeguard. If the two shapes were indistinguishable, downstream
+would extend the trust the recorded ones earned to all of them — and a closed-vocabulary
+field back-filled by rule is an inference wearing the clothes of an observation.
 
 **Failure mode — the unreferenceable, undeletable artifact.** Without identity, an output
 directory can answer neither "which claim rests on this?" nor "is anything still using
