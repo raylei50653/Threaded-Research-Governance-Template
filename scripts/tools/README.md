@@ -2,8 +2,13 @@
 
 `check_mainline_concurrency.py` enforces exactly one thing:
 
-> At most one authority may change decision state at a time.
+> At most one active decision authority per declared decision scope.
 > — [primitive 01](../../docs/primitives/01-authority-separation.md)
+
+Exclusivity is the invariant; the scope is a declaration. The reference realization declares
+`scope = module owner`, so the check reads as *one charter per module*. A project declaring
+a finer scope would run several charters under one owner and would need a different query —
+not a weaker rule.
 
 ```bash
 python3 scripts/tools/check_mainline_concurrency.py
@@ -19,7 +24,7 @@ interesting question is not *can* an invariant be enforced. It is **which one is
 enforcing, and at which point in the lifecycle**.
 
 Answering that by accretion is how a checker suite becomes
-[a gate that blocks work it was never meant to touch](../../docs/evolution/retracted/03-governance-coupled-to-development.md).
+[a gate that blocks work it was never meant to touch](../../docs/evolution/failures/03-governance-coupled-to-development.md).
 This repository is a model, so one checker is enough: an existence proof that the
 primitives are mechanical, not editorial.
 
@@ -27,7 +32,7 @@ Mainline concurrency is the right one to show, because it is where the abstracti
 most visibly from the rule it replaced. The checker counts **charters**. It has no opinion
 on how many probes, backfills or documentation fixes are in flight — those are execution,
 and constraining them was
-[the mistake](../../docs/evolution/retracted/02-uniform-wip-1.md).
+[the mistake](../../docs/evolution/failures/02-uniform-wip-1.md).
 
 ## Watching it fail
 

@@ -11,19 +11,21 @@ long-running, agent-assisted research engineering.**
 ## What this is
 
 Five invariants, the failure modes they prevent, and the record of how they were arrived at —
-including three designs that were adopted and then withdrawn.
+including two designs that were adopted and withdrawn, and one coupling still open.
 
 The primitives were not designed. They are what survived contact with a production research
 codebase ([`raylei50653/saccade`](https://github.com/raylei50653/saccade), public), across
 four rounds in which the simpler version broke.
 
 ```text
-Execution  →  Artifact identity  →  Evidence  →  Accepted claim  →  Decision state
+Run identity  →  Execution  →  Artifact  →  Evidence  →  Accepted claim  →  Decision state
+     └── bound before the first result byte ──┘        └─ promotion ─┘   └─ adjudication ─┘
 ```
 
-Every arrow is a promotion: an explicit act, a named home, a recorded acceptor. No arrow may
-be skipped and none may be traversed backwards. The five primitives are what keep that chain
-honest.
+Identity comes first. A run that has already produced output can only be *described*, and a
+description is not a binding. The early arrows are mechanical bindings — captured, not
+granted; only the last two require an acceptor. What is uniform is that **no arrow may be
+skipped and none traversed backwards**, and the five primitives are what keep that true.
 
 ---
 
@@ -37,7 +39,11 @@ honest.
 | **02** | [Identity](docs/primitives/02-identity.md) | Nameable before the first result byte | *artifacts that can be neither cited nor deleted* |
 | **03** | [Evidence promotion](docs/primitives/03-evidence-promotion.md) | Citable only after an explicit promotion | *second truths; lost negative results* |
 | **04** | [Transition admissibility](docs/primitives/04-transition-admissibility.md) | Rules give a candidate set; selection is separate | *mechanical execution mistaken for judgment* |
-| **05** | [Projection](docs/primitives/05-projection.md) | Summaries are generated or are links | *authoritative-looking stale status pages* |
+| **05** | [Projection](docs/primitives/05-projection.md) | A projection never becomes an authority | *authoritative-looking stale status pages* |
+
+Four of the five are stated at the strictness the reference codebase actually runs.
+[Projection](docs/primitives/05-projection.md) is stated **stricter** — a distilled
+correction, labelled as one on its own page.
 
 Two results that generalize furthest:
 
@@ -67,18 +73,19 @@ That grading is not decoration. [Primitive 02](docs/primitives/02-identity.md) s
 reconstructed provenance is not production provenance — so a page narrating four rounds of
 evolution has to say which rounds a reader can actually check.
 
-### Three retracted designs
+### Failures
 
-**→ [`docs/evolution/retracted/`](docs/evolution/retracted/)**
+**→ [`docs/evolution/failures/`](docs/evolution/failures/)** — two withdrawn, one open.
 
-| | withdrawn | why |
+| design | status | why |
 |:--|:--|:--|
-| [Dispatch sidecars as execution authority](docs/evolution/retracted/01-dispatch-sidecars-as-execution-authority.md) | 2026-07-10 | restated facts GitHub already owned |
-| [Uniform WIP = 1](docs/evolution/retracted/02-uniform-wip-1.md) | 2026-07-13 | constrained execution when it meant decisions |
-| [Governance coupled to development](docs/evolution/retracted/03-governance-coupled-to-development.md) | *in flight* | one gate answering three questions |
+| [Dispatch sidecars as execution authority](docs/evolution/failures/01-dispatch-sidecars-as-execution-authority.md) | **retracted** 2026-07-10 | restated facts GitHub already owned |
+| [Uniform WIP = 1](docs/evolution/failures/02-uniform-wip-1.md) | **retracted** 2026-07-13 | constrained execution when it meant decisions |
+| [Governance coupled to development](docs/evolution/failures/03-governance-coupled-to-development.md) | **open**, filed 2026-09-05 | one gate answering three questions |
 
 A model whose history contains only additions has not been tested. These are the load-bearing
-part of the artifact.
+part of the artifact — and the third keeps its own status rather than being rounded up to
+"retracted", because a proposed direction is not an adjudicated one.
 
 ---
 
@@ -88,9 +95,11 @@ part of the artifact.
 python3 scripts/tools/check_mainline_concurrency.py
 ```
 
-Enforces exactly one primitive: at most one decision-changing charter per owner. It counts
-charters and has no opinion on how many probes are in flight — constraining those was
-[the retracted rule](docs/evolution/retracted/02-uniform-wip-1.md).
+Enforces exactly one primitive: **one active decision authority per declared scope**. The
+realization declares `scope = module owner`, so the check reads as one charter per module —
+the exclusivity is the invariant, the scope is the policy. It counts charters and has no
+opinion on how many probes are in flight; constraining those was
+[the retracted rule](docs/evolution/failures/02-uniform-wip-1.md).
 
 There is deliberately no checker suite. Whether an invariant *can* be enforced is the easy
 question; **which one is worth enforcing, and where in the lifecycle**, is the hard one —
@@ -109,14 +118,9 @@ It is **frozen at v1 (2026-07-10)** on purpose. It states the withdrawn uniform 
 because it is dated, it is what was distilled at the time, and updating it to match the later
 model would erase the only concrete evidence that the model moved.
 
-Copy it as an overlay if you want a starting point:
-
-```bash
-cp -a reference-realization/. /path/to/your/repo/
-```
-
-Then read [retracted/02](docs/evolution/retracted/02-uniform-wip-1.md) before you adopt its
-WIP rule literally.
+Read it as an **exhibit**, not a starting point — it is a snapshot that deliberately contains
+a rule the model has since withdrawn ([why](docs/evolution/failures/02-uniform-wip-1.md)).
+Copying instructions live inside that directory, behind the warning that belongs with them.
 
 **These are reference policy, not invariants** — one workable implementation of the model,
 and the part most likely to be wrong for your project:
@@ -131,7 +135,8 @@ TODO ≤ 20 lines · "WIP = 1" literally · module package schema · ledger tabl
 ## What this is not
 
 - **Not a template to adopt.** Adopting the directory layout without the invariants gives you
-  the shape of the thing.
+  the shape of the thing. The frozen realization is an exhibit; it still states a rule that
+  was withdrawn three days after it was written.
 - **Not a finished model.** v4 is open. There is no reason to think v5 does not exist.
 - **Not a claim about outcomes.** Nothing here asserts the governance improved any research
   result. Under [primitive 03](docs/primitives/03-evidence-promotion.md) that claim would

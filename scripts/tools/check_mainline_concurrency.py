@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 """Mechanical check for one invariant: mainline decision concurrency.
 
-    At most one authority may change decision state at a time.
+    At most one active decision authority per declared decision scope.
         -- docs/primitives/01-authority-separation.md
+
+Exclusivity is the invariant. The *scope* is a declaration, and the reference
+realization declares `scope = module owner` -- which is why this file scans
+module TODOs and allows one charter each. A project declaring a finer scope
+(per decision object, say) would legitimately run several charters under one
+owner and would need a different query, not a weaker rule.
 
 This is the only enforced invariant in this repository, and it is here as an
 existence proof: the primitives in docs/primitives/ are not purely editorial.
 It is deliberately not a governance suite. Deciding *which* invariant is worth
 enforcing, and at which point in the lifecycle, is the hard part -- see
-docs/evolution/retracted/03-governance-coupled-to-development.md for what
+docs/evolution/failures/03-governance-coupled-to-development.md for what
 happens when that question is answered by accretion.
 
 What it enforces
-    Each module TODO declares at most one decision-changing mainline charter,
-    marked with the charter glyph, inside its "Sole active" section.
+    Under `scope = module owner`: each module TODO declares at most one
+    decision-changing mainline charter, marked with the charter glyph, inside
+    its "Sole active" section.
 
 What it deliberately does NOT enforce
     Concurrency of probes, backfill, engineering follow-up or documentation
@@ -87,7 +94,7 @@ def check_file(path: Path, root: Path) -> list[str]:
         where = ", ".join(f"line {i + 1}" for i in inside)
         problems.append(
             f"{rel}: {len(inside)} mainline charters in '{SECTION}' ({where}) -- "
-            f"at most one authority may change decision state at a time"
+            f"one active decision authority per scope; scope here is the module"
         )
     for i in outside:
         problems.append(

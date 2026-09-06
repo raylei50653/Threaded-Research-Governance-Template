@@ -56,7 +56,14 @@ $$\boxed{\text{constrain decision concurrency, not execution concurrency}}$$
 
 The invariant is not *"the task file may contain one line."* It is:
 
-> **At most one authority may change decision state at a time.**
+> **At most one active decision authority per declared decision scope.**
+
+> **One step beyond the observed fix.** The lab's correction says *per module owner*. The
+> generalization to *per declared scope* is this model's, not a transcription: exclusivity
+> is what the acceptance event needs, and "module" is one way to draw the boundary. A
+> project holding many independent decision objects under one owner can draw it finer
+> without weakening anything — see
+> [primitive 01](../../primitives/01-authority-separation.md#declaring-the-scope-is-part-of-adopting-this).
 
 Everything else may run concurrently, subject to one condition: it must not quietly become
 a second decision line. That condition is what the charter marker is for — the marker is not

@@ -5,7 +5,7 @@
 > **Frozen at 2026-07-10.** One workable implementation of [the model](../MODEL.md),
 > preserved as it was distilled. It states rules the model has since revised — most
 > notably uniform WIP = 1
-> ([why it was withdrawn](../docs/evolution/retracted/02-uniform-wip-1.md)). Updating it
+> ([why it was withdrawn](../docs/evolution/failures/02-uniform-wip-1.md)). Updating it
 > would erase the only concrete evidence that the model moved.
 >
 > Copy as an overlay: `cp -a reference-realization/. /path/to/your/repo/`

@@ -19,9 +19,22 @@ Every row below is graded:
 
 | grade | meaning |
 |:--|:--|
-| **V** — verifiable | A public artifact exists that a reader can open, dated at or before the claim. Link given. |
+| **V** — verifiable | A public artifact exists that a reader can open, dated at or before the claim. Link given, **pinned to a commit SHA**. |
 | **R** — retrospective | Reconstructed after the fact. No artifact predates the claim. Read as recollection, not record. |
 | **O** — open | Proposed and not yet adjudicated. May still turn out to be wrong. |
+
+**V links point at blobs, not at `main`.** A citation that resolves through a moving branch
+lets the artifact change after the claim was made — which is the same failure as
+reconstructed provenance, one layer up. Issue links are the exception and cannot be pinned;
+they carry the date on which their state was read.
+
+The pinned SHAs, for anyone checking:
+
+| artifact | pinned at |
+|:--|:--|
+| `claim_state_registry.md` | [`d1b32b58`](https://github.com/raylei50653/saccade/blob/d1b32b588fe1a1f49989d9ffff1d907685f148be/docs/research/contracts/claim_state_registry.md) |
+| ADR 021 | [`ef3030c0`](https://github.com/raylei50653/saccade/blob/ef3030c0953171e8719eecd45f8b854972d0cb01/docs/decisions/021-asset-provenance-and-progress-reporting.md) |
+| `DEVELOPMENT.md` | [`563d57b8`](https://github.com/raylei50653/saccade/blob/563d57b882ddc6bfd69ca414648ab18fdf4757f2/DEVELOPMENT.md) |
 
 **R rows are not evidence.** They are included because omitting the pre-history would make
 the sequence look more designed than it was, which is itself a misrepresentation. They are
@@ -36,7 +49,7 @@ marked so that no reader mistakes a narrative for a finding.
 | **v0** | — | TODO as task memory | Bloat; the same number lived in TODO, PR body and chat, then drifted | **R** |
 | **v1** | 2026-07-10 | WIP lock + thread cards + evidence promotion | No separation between what was *planned* and what was *accepted* | **V** |
 | **v2** | 2026-07-13 | Accepted state / charter / probe split | Evidence had no artifact identity to point back at | **V** |
-| **v3** | 2026-09-01 | Asset provenance layer | Governance gates coupled to ordinary development | **V** (proposed) |
+| **v3** | 2026-09-01 | Asset provenance layer | Governance gates coupled to ordinary development | **V** (landed, [#330](https://github.com/raylei50653/saccade/pull/330)) |
 | **v4** | 2026-09-05 | Separate validity / applicability / completeness | — still open — | **O** |
 
 ---
@@ -96,12 +109,12 @@ and the consequence that generalizes furthest:
 > The rules produce a legal candidate set. Choosing from it is a separate act.
 
 **Artifacts:**
-- [`claim_state_registry.md`](https://github.com/raylei50653/saccade/blob/main/docs/research/contracts/claim_state_registry.md)
+- [`claim_state_registry.md`](https://github.com/raylei50653/saccade/blob/d1b32b588fe1a1f49989d9ffff1d907685f148be/docs/research/contracts/claim_state_registry.md)
   (2026-07-12) — the state fact-owner, with the band table and the object-identity rule.
 - [PR #151 / `7010f4d5`](https://github.com/raylei50653/saccade/commit/7010f4d5) (2026-07-13) —
   the diff that narrowed WIP=1 from "one active goal" to "one decision-changing mainline
   charter", with probes explicitly non-WIP. See
-  [`retracted/02`](retracted/02-uniform-wip-1.md).
+  [`failures/02`](failures/02-uniform-wip-1.md).
 
 **What it broke on.** State could now be recorded rigorously, but the chain underneath it
 was severed: a ledger row cited a document, and the document cited a number, and nothing
@@ -109,7 +122,7 @@ said which run, which commit, which preset produced that number.
 
 ---
 
-### v3 — asset provenance · **V** (proposed, not landed)
+### v3 — asset provenance · **V**
 
 An inventory on 2026-09-01 measured the gap directly: ~87 GB of experiment output across
 six directories, **zero manifests**. Sampled result directories carried no commit SHA, no
@@ -123,13 +136,27 @@ impossible — the disorder erased the information cleanup would need.
 The rule adopted: a manifest is written **before the first result byte**, fail-closed.
 Provenance reconstructed afterwards is a plausible story, not a binding.
 
+The refinement that arrived with it is the part worth stealing. Reconstruction is not
+banned — an artifact predating the discipline still needs a name — so the **mode is written
+into the file**, and the required field set differs by mode. A reconstructed manifest must
+name a source for every field it carries and must omit the rest rather than infer them.
+Without that, the two shapes are indistinguishable and downstream extends the trust the
+recorded ones earned to all of them.
+
 **Artifact:**
-[ADR 021](https://github.com/raylei50653/saccade/blob/main/docs/decisions/021-asset-provenance-and-progress-reporting.md)
+[ADR 021](https://github.com/raylei50653/saccade/blob/ef3030c0953171e8719eecd45f8b854972d0cb01/docs/decisions/021-asset-provenance-and-progress-reporting.md)
 (2026-09-01).
 
-> **Status honesty:** ADR 021 is `proposed`. The design is public and dated; the
-> implementation is not claimed to have landed. The measurements in §1.1 are **V**;
-> "this fixed the problem" would be **R** and is therefore not claimed.
+**Landed:** the ADR document still carries `doc-status: proposed` — it is a planning
+document and was never flipped — but the implementation merged the same day:
+[#330](https://github.com/raylei50653/saccade/pull/330) (AP-1 + AP-2, *claim artifact
+directories before writing results*), followed by the inventory projection and a schema bump
+that added `provenance_mode`. The manifest writer is fail-closed: no manifest, no results.
+
+> **What is still not claimed.** That the ~87 GB was reduced, or that any orphan was
+> disposed of. Identity is the precondition for disposal
+> ([primitive 02](../primitives/02-identity.md)), and this row establishes only that
+> new artifacts have names. "This fixed the problem" would be **R**.
 
 ---
 
@@ -156,7 +183,7 @@ nothing should not require publication-level maintenance to proceed.
 > claim being made here is that these primitives *produce* coupling failures under load,
 > and an open issue is stronger support for that claim than a tidy resolution would be.
 
-→ [`retracted/03`](retracted/03-governance-coupled-to-development.md)
+→ [`failures/03`](failures/03-governance-coupled-to-development.md) — filed under `failures/`, not `retracted/`: a proposed direction is not an adjudicated one.
 
 ---
 
@@ -167,6 +194,9 @@ nothing should not require publication-level maintenance to proceed.
 - **Not that the primitives are independent.** v4 exists precisely because they are not.
 - **Not that this sequence was inevitable.** Only that it happened, in this order, in this
   codebase, for these reasons.
+- **Not that every primitive is a transcription.**
+  [Projection](../primitives/05-projection.md) is stated stricter than the lab runs it — the
+  three conditions are observed, the tier ranking is a correction. It says so on the page.
 - **Not a claim about outcomes.** Nothing here asserts that the governance improved the
   tracking results. That would be a claim requiring evidence of a kind this page does not
   have, and under [`primitives/03`](../primitives/03-evidence-promotion.md) it is therefore

@@ -19,13 +19,25 @@ Depth, worked examples and the observed failures live in [`docs/primitives/`](do
 Everything in the model exists to keep one chain unbroken and one-directional:
 
 ```text
-Execution  →  Artifact identity  →  Evidence  →  Accepted claim  →  Decision state
+Run identity  →  Execution  →  Artifact  →  Evidence  →  Accepted claim  →  Decision state
+     └── bound before the first result byte ──┘        └─ promotion ─┘   └─ adjudication ─┘
 ```
 
-Every arrow is a **promotion**: it requires an explicit act, a named home, and a record
-of who accepted it. No arrow may be traversed backwards, and no arrow may be skipped.
+Identity comes **first**, not after execution: a run that has already produced output can
+only be described, and a description is not a binding ([primitive 2](docs/primitives/02-identity.md)).
 
-The five primitives are the constraints that keep that chain honest.
+The arrows are not all the same kind, and the difference matters:
+
+| arrow | kind | requires |
+|:--|:--|:--|
+| identity → execution → artifact | **mechanical binding** | that it be recorded, in order. No acceptor; identity is captured, not granted. |
+| artifact → evidence | **interpretation** | a method and its conditions, stated |
+| evidence → accepted claim | **promotion** | an explicit act, a named home, a recorded acceptor |
+| accepted claim → decision state | **adjudication** | an owner accepting that the claim changes what is true |
+
+What the model enforces is uniform even though the arrows are not: **no arrow may be
+skipped, and none may be traversed backwards.** The five primitives are the constraints
+that keep that true.
 
 ---
 
@@ -49,9 +61,14 @@ acceptance        what was adjudicated           event         state
 Expectation and execution have **no** authority: an expected state may never be written
 back into accepted state, and a probe that ran is not a claim that was accepted.
 
-**Cardinality is a property of the intent band only.** At most one *decision-changing*
-mainline charter may be open per owner. Probes, data backfill, engineering follow-up and
-documentation cleanup are unbounded — they are execution, not intent.
+**Cardinality is a property of the intent band only.** At most one active decision
+authority per **declared decision scope** — the exclusive-writer rule, not a work-in-progress
+limit. Probes, data backfill, engineering follow-up and documentation cleanup are unbounded;
+they are execution, not intent.
+
+The scope is a choice, and declaring it is part of adopting the model. The reference
+realization sets `scope = module owner`, which is why its rule reads "one charter per
+module" — that is policy, not the invariant.
 
 $$\text{constrain decision concurrency, not execution concurrency}$$
 
@@ -149,15 +166,29 @@ closed. These are not the same check and must not share an exit code.
 
 ## 5. Projection
 
-> *導覽面必須是生成的，或只是連結。永遠不是第二份真相。*
+> *導覽面永遠不能變成 authority；生成 ≻ 機械對帳 ≻ 只放連結。*
 
-**Invariant.** Any surface that summarizes state — a dashboard, a status page, a progress
-report, a thread card — must either be **generated** from the fact owners, or contain
-**only links**. It must never restate a fact it does not own.
+**Invariant.** A projection must never become an authority. Any surface that summarizes
+state — a dashboard, a status page, a progress report, a thread card — is subject to three
+non-negotiable conditions: it owns nothing, the fact owner wins every conflict, and it
+declares which it is.
 
-A hand-written status page is a second truth with a timestamp on it. It is correct on the
-day it is written and wrong thereafter, and it is *more* dangerous than no page at all
-because it reads as authoritative.
+Given those, the forms are ranked, not binary:
+
+```text
+1. generated               derived on demand; cannot drift
+2. mechanically reconciled  hand-written, but equality with the owner is checked
+3. link-only                permanently correct, carries no content
+```
+
+> **Stated stricter than observed.** This ranking is a distilled correction, not a
+> transcription: the lab still runs hand-written navigation projections at tier 2. See the
+> primitive's Status note.
+
+An **unreconciled** hand-written status page — tier 2 without the check — is a second truth
+with a timestamp on it. It is correct on the day it is written and wrong thereafter, and it
+is *more* dangerous than no page at all, because it is structured, it is the easiest thing
+to find, and a reader arriving cold will trust it over the owners it silently left behind.
 
 **Corollary — thin entrypoints.** The top-level entry document is a router: level →
 document pack → action. It composes links. It does not accumulate an encyclopedia, because
@@ -180,7 +211,7 @@ D0–D4 change levels              a routing scheme, not a primitive
 O0 / O1 / O1.5 layering          local vocabulary
 the docs/ directory topology     one realization
 TODO ≤ 20 lines                  a bloat heuristic
-"WIP = 1"                        the literal rule; the invariant is §1's cardinality
+"WIP = 1" per module            scope = module owner is a choice; the invariant is exclusivity
 module package schema            convenient, not necessary
 a specific ledger table format   a home must exist; its columns are local
 ```
@@ -188,15 +219,15 @@ a specific ledger table format   a home must exist; its columns are local
 The distinction matters because the abstraction generalizes and the rule does not.
 The core is not *"the TODO file may contain one line."* The core is:
 
-> **At most one authority may change decision state at a time.**
+> **At most one active writer per decision-state scope.**
 
 ---
 
 ## How this model was arrived at
 
 It was not designed. It is what survived four rounds of contact with a production research
-codebase, including designs that were adopted and later retracted. That history — with
+codebase, including designs that were adopted and then failed. That history — with
 each step graded by how far a reader can verify it — is the other half of this artifact:
 
 - [`docs/evolution/`](docs/evolution/) — v0 → v4, and what broke at each step
-- [`docs/evolution/retracted/`](docs/evolution/retracted/) — three designs withdrawn after contact
+- [`docs/evolution/failures/`](docs/evolution/failures/) — two designs withdrawn, one coupling still open

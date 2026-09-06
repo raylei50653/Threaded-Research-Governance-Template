@@ -82,7 +82,7 @@ detected staleness could not be satisfied without first passing itself.
 
 **Observed:** [Issue #334](https://github.com/raylei50653/saccade/issues/334), opened
 2026-09-05, **open**. Direction proposed, not adjudicated. See
-[retracted/03](../evolution/retracted/03-governance-coupled-to-development.md).
+[failures/03](../evolution/failures/03-governance-coupled-to-development.md).
 
 ## What this does not require
 

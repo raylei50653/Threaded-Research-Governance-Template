@@ -2,7 +2,7 @@
 
 **Withdrawn:** 2026-07-10 · **Grade:** V ·
 **Artifact:** [`0c794712`](https://github.com/raylei50653/saccade/commit/0c794712) ·
-[current prohibition](https://github.com/raylei50653/saccade/blob/main/DEVELOPMENT.md)
+[the prohibition @ `563d57b8`](https://github.com/raylei50653/saccade/blob/563d57b882ddc6bfd69ca414648ab18fdf4757f2/DEVELOPMENT.md)
 
 ---
 
@@ -35,8 +35,9 @@ than the system it was copying.
 
 ## The primitive it violated
 
-[**Projection**](../../primitives/05-projection.md) — a surface that summarizes state must
-be generated or must link. Never restate.
+[**Projection**](../../primitives/05-projection.md) — a projection owns nothing and the
+owner wins. A sidecar that restates GitHub's fields owns them in practice, because it is the
+file sitting next to the work.
 
 The corrected split, now stated in the entry document:
 

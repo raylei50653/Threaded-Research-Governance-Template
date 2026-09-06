@@ -1,12 +1,13 @@
 # In flight: governance coupled to development
 
-**Status:** open · **Grade:** O ·
+**Status:** open, unadjudicated (state as of 2026-09-06) · **Grade:** O ·
 **Artifact:** [Issue #334](https://github.com/raylei50653/saccade/issues/334)
 (opened 2026-09-05)
 
-> Not a retraction yet. A coupling identified, with a proposed direction and no
-> adjudication. Listed with the retractions because it is the same *kind* of finding: a
-> primitive that is individually correct and collectively wrong.
+> **Not a retraction.** A coupling identified, with a proposed direction and no
+> adjudication. It sits in `failures/` rather than under a "retracted" label because the
+> label would be a claim the artifact does not support — the same *kind* of finding as 01
+> and 02 (a primitive individually correct and collectively wrong), at an earlier stage.
 
 ---
 
